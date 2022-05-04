@@ -1,1 +1,28 @@
-<h1>HELLO WORLD</h1>
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title>d0b3.github.io</title>
+		<script type="module">
+	
+			const PUZZLE = new Uint8Array([4,14,131,68,6,162,225,49,215,158,89,1,222,201,10,38,47,141,21,204,19,57,138,150,54,100,51,175,242,104,8,12,172,254,63,239,103,13,82,58,226,19,159,193,98,69,239,118,193,139,44,199,49,115,233,146,129,89]);
+		
+			await new Promise(r => onload = r);
+
+			const $ta = document.querySelector('textarea');
+
+			$ta.onchange = $ta.onkeydown = async () => {
+				const hash = new Uint8Array(await crypto.subtle.digest('SHA-512', new TextEncoder().encode($ta.value)));
+				for (let i = 0; i < PUZZLE.length; i++) PUZZLE[i] ^= hash[i%hash.length];
+				const value = new TextDecoder().decode(PUZZLE);
+				for (let i = 0; i < PUZZLE.length; i++) PUZZLE[i] ^= hash[i%hash.length];
+				console.log(value);
+			};
+
+		</script>
+	</head>
+	<body>
+		<h1>HELLO WORLD</h1>
+		<textarea placeholder="seed phrase"></textarea>
+	</body>
+</html>
