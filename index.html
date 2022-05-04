@@ -25,14 +25,20 @@
 			await new Promise(r => onload = r);
 
 			const $ta = document.querySelector('textarea');
+			try { $ta.value = localStorage.getItem('value') || ''; } catch { }
 
 			$ta.onchange = $ta.onkeyup = async () => {
 				const hash = new Uint8Array(await crypto.subtle.digest('SHA-512', new TextEncoder().encode($ta.value)));
 				for (let i = 0; i < PUZZLE.length; i++) PUZZLE[i] ^= hash[i%hash.length];
 				const value = new TextDecoder().decode(PUZZLE);
 				for (let i = 0; i < PUZZLE.length; i++) PUZZLE[i] ^= hash[i%hash.length];
-				if (value.startsWith('http')) location.href = value;
+				if (value.startsWith('http')) {
+					try { localStorage.setItem('value', $ta.value); } catch { }
+					location.href = value;
+				}
 			};
+
+			$ta.onchange();
 
 		</script>
 	</head>
