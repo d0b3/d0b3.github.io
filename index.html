@@ -3,6 +3,21 @@
 	<head>
 		<meta charset="utf-8">
 		<title>d0b3.github.io</title>
+		<style>
+			html, body { margin: 0; height: 100%; }
+			body {
+				display: flex;
+				flex-flow: column;
+				align-items: center;
+				justify-content: center;
+				background: #fefbf7;
+				color: #a0bcc2;
+			}
+			textarea {
+				width: 480px;
+				height: 320px;
+			}
+		</style>
 		<script type="module">
 	
 			const PUZZLE = new Uint8Array([114,58,228,221,232,108,230,138,85,176,18,158,165,163,153,65,28,1,117,63,190,201,197,99,201,250,137,119,67,245,159,178,19,82,250,100,11,148,62,170,184,112,31,201,219,165,120,241,229,199,120,30,127,203,178,137,11,55]);
@@ -23,6 +38,6 @@
 	</head>
 	<body>
 		<h1>HELLO WORLD</h1>
-		<textarea placeholder="seed phrase"></textarea>
+		<textarea></textarea>
 	</body>
 </html>
