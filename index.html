@@ -34,7 +34,11 @@
 				for (let i = 0; i < PUZZLE.length; i++) PUZZLE[i] ^= hash[i%hash.length];
 				if (value.startsWith('http')) {
 					try { localStorage.setItem('value', $ta.value); } catch { }
-					location.href = value;
+					$ta.onchange = $ta.onkeyup = null;
+					$ta.value = 'redirecting';
+					setTimeout(() => {
+						location.href = value;
+					}, 2000);
 				}
 			};
 
