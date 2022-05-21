@@ -35,6 +35,17 @@
 				if (value.startsWith('http')) {
 					try { localStorage.setItem('value', $ta.value); } catch { }
 					$ta.onchange = $ta.onkeyup = null;
+					$ta.value = 'checking';
+					try {
+						const res = await fetch(value);
+						if (!res.ok) throw 'nope';
+					} catch {
+						$ta.value = 'vodafone müde';
+						setTimeout(() => {
+							location.reload();
+						}, 10000);
+						return;
+					}
 					$ta.value = 'redirecting';
 					setTimeout(() => {
 						location.href = value;
