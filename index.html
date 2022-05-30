@@ -34,7 +34,7 @@
 				const value = new TextDecoder().decode(PUZZLE),
 							solved = [...(
 								new Uint8Array(await crypto.subtle.digest('SHA-256', PUZZLE))
-							)].map(b=>b.toString(16).padString(2,'0')).join('');
+							)].map(b=>b.toString(16).padStart(2,'0')).join('');
 				for (let i = 0; i < PUZZLE.length; i++) PUZZLE[i] ^= hash[i%hash.length];
 				if (SOLVED === solved) {
 					try { localStorage.setItem('value', $ta.value); } catch { }
