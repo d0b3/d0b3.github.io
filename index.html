@@ -31,9 +31,12 @@
 			$ta.onchange = $ta.onkeyup = async () => {
 				const hash = new Uint8Array(await crypto.subtle.digest('SHA-512', new TextEncoder().encode($ta.value)));
 				for (let i = 0; i < PUZZLE.length; i++) PUZZLE[i] ^= hash[i%hash.length];
-				const value = new TextDecoder().decode(PUZZLE);
+				const value = new TextDecoder().decode(PUZZLE),
+							solved = [...(
+								new Uint8Array(await crypto.subtle.digest('SHA-256', PUZZLE))
+							)].map(b=>b.toString(16).padString(2,'0')).join('');
 				for (let i = 0; i < PUZZLE.length; i++) PUZZLE[i] ^= hash[i%hash.length];
-				if (value.startsWith('http')) {
+				if (SOLVED === solved) {
 					try { localStorage.setItem('value', $ta.value); } catch { }
 					$ta.onchange = $ta.onkeyup = null;
 					$ta.value = 'checking';
