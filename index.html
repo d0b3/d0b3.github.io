@@ -22,11 +22,7 @@
 
       await new Promise(r => addEventListener('DOMContentLoaded', r, { once: true }));
 
-      async function sha (t) {
-        // https://geraintluff.github.io/sha256/sha256.min.js
-        var sha256=function a(b){function c(a,b){return a>>>b|a<<32-b}for(var d,e,f=Math.pow,g=f(2,32),h="length",i="",j=[],k=8*b[h],l=a.h=a.h||[],m=a.k=a.k||[],n=m[h],o={},p=2;64>n;p++)if(!o[p]){for(d=0;313>d;d+=p)o[d]=p;l[n]=f(p,.5)*g|0,m[n++]=f(p,1/3)*g|0}for(b+="\x80";b[h]%64-56;)b+="\x00";for(d=0;d<b[h];d++){if(e=b.charCodeAt(d),e>>8)return;j[d>>2]|=e<<(3-d)%4*8}for(j[j[h]]=k/g|0,j[j[h]]=k,e=0;e<j[h];){var q=j.slice(e,e+=16),r=l;for(l=l.slice(0,8),d=0;64>d;d++){var s=q[d-15],t=q[d-2],u=l[0],v=l[4],w=l[7]+(c(v,6)^c(v,11)^c(v,25))+(v&l[5]^~v&l[6])+m[d]+(q[d]=16>d?q[d]:q[d-16]+(c(s,7)^c(s,18)^s>>>3)+q[d-7]+(c(t,17)^c(t,19)^t>>>10)|0),x=(c(u,2)^c(u,13)^c(u,22))+(u&l[1]^u&l[2]^l[1]&l[2]);l=[w+x|0].concat(l),l[4]=l[4]+w|0}for(d=0;8>d;d++)l[d]=l[d]+r[d]|0}for(d=0;8>d;d++)for(e=3;e+1;e--){var y=l[d]>>8*e&255;i+=(16>y?0:"")+y.toString(16)}return i};
-        return new Uint8Array(sha256(t).match(/.{2}/g).map(s=>parseInt(s,16)));
-      };
+      async function sha (t) { return new Uint8Array(await crypto.subtle.digest('SHA-256', new TextEncoder().encode(t))); };
       async function dec (sock, salt, pass) {
     sock = new Uint8Array(sock.match(/.{2}/g).map(s=>parseInt(s, 16)));
     const flp = await sha(salt+pass+salt);
@@ -39,7 +35,7 @@
     } catch { }
   };
 
-      const SOCK = ["2f9350d77fab9dc434fa533633c361d9bfa12099205417c9355468c9ed5103d0f5521b8770acb6fabc56861ca7ab66296c8b7a787eb3fbe41275002f3126c6f1b4065ed539edfae1e54f9708f3e13d2f7dc1676466a2eea60a700d2622278eb2b61d568770acb6b2e8","67a8961576b2972a1574792e96ee1ed9664fb89373495b6d1ff5bf8c3fe7af69bd69dd4579b5bc5c81d8a8074b931969a873ef7522bdbc1478d8dd64f4913408f02889002bfcfd109a81b1165fc75332ae62a5683ea5ad013ac0d869fd823540b32a920879b5bc5cc98c","b1c2a641823f9d20ab6cf8f26f5eb0b9e91e3272b7129b3fa083eeff2b1eb44f6b03ed118d38b6563fc029dbb223b70927226594e6e67c46c7ae8c17e0682f2e2642b954df71f71a249930caa677fd5221332f89fafe6d5385b6891ae97b2e666540a25c8d38b6567794"];
+      const SOCK = ["2f9350d77fab9dc434fa533633c361d9bfa12099205417c9355468c9ed5103d0f5521b8770e4e2e6b851cc40b2eb3b227781726466ecefa8147119396e388ae8b00052c63cffbbffa945980ae9ed2a686a9d6a7573aef7ad19780a38267b88f3b8521b8770acb6","67a8961576b2972a1574792e96ee1ed9664fb89373495b6d1ff5bf8c3fe7af69bd69dd4579b5f4089ddcaf4d17865934a368e57d3ea5e30034ded97de2ce2a44e92c8f0c38f9ef5184cdbb195ddd5f25e975f9652fb0a11831d3d06ee3866946f224dd4579b5bc5cc9","b1c2a641823f9d20ab6cf8f26f5eb0b9e91e3272b7129b3fa083eeff2b1eb44f6b03ed118d38b61e23c02dd8fb36b7493a346893e9f5771287a28619f769716e2a57a843c479fa057ad93cccaf7cec4f2b7e758ff1e462509fa78b10e468392d284ca0118d38b6567794"];
 
       const $ta = document.querySelector('textarea');
       try { $ta.value = localStorage.getItem('value') || ''; } catch { };
