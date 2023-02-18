@@ -1,40 +1,53 @@
-<!DOCTYPE html>
-<html>
-  <head>
-    <meta charset="utf-8">
-    <link rel="icon" type="image/png" href="icon.png">
-    <link rel="manifest" href="mobile.webmanifest">
-    <meta name="viewport" content="width=device-width, user-scalable=no, minimal-ui">
-    <title>d0b3.github.io</title>
-    <style>
-      html, body { margin: 0; height: 100%; }
-      body {
-        display: flex;
-        flex-flow: column;
-        align-items: center;
-        justify-content: center;
-        background: #fefbf7;
-        color: #a0bcc2;
-      }
-      textarea {
-        width: 480px;
-        height: 320px;
-      }
-    </style>
-    <script type="module">
-      await new Promise(r => addEventListener('DOMContentLoaded', r, { once: true }));
-      const $ta = document.querySelector('textarea');
-      try { $ta.value = localStorage.getItem('value') || ''; } catch { };
-      $ta.onchange = $ta.onkeyup = async () => {
-        const[E,D,$E,$D]=await(async(p,s)=>{const name='AES-GCM',hash='SHA-256',P='PBKDF2',E='encrypt',D='decrypt',R='deriveKey',C=crypto.subtle,U=c=>new TextEncoder().encode(c),H=c=>C.digest(hash,U(c)),A={name,iv:await H(s+s)},K=await C[R]({name:P,salt:await H(s),iterations:250000,hash,},await C.importKey('raw',U(p),P,!1,[R]),{name,length:256},!1,[E,D]);return[async c=>[...new Uint8Array(await C[E](A,K,U(c)))].map(b=>b.toString(16).padStart(2,'0')).join(''),async c=>(new TextDecoder).decode(await C[D](A,K,new Uint8Array(c.match(/../g).map(h=>parseInt(h,16))))),b=>C[E](A,K,b),b=>C[D](A,K,b)]})($ta.value.trim(),"pND6QRk5Qpe4GwRWdq/zfb6atNZ+S0XfpJ2MPcrFFkU=");
-        try{return eval(await D("618f2ef311d99912977c47ec9697d587c8400cdb43ab8fb2906b227271c22430c145f83e83503bc034e2b6e1207aa6cd6d1d23f73cb236c3c32e9f2c7bca01d2a29328eb7961831fb1497e02d19ff4adc8b6a79c23b6d5009668258e15f9490fb821325abd7759a8ce6ab0af1c86ee6119fe1baa4453730fb1049626572e38fa48d9e493e772fe07ab3a77f38450a8ce707f766ae4f872bc945efc98d4af54aca1ced4dbc2d7187a4bda2496fec3f0559289f31451e83dbcf9697336263886e6841a0ae75fb7d32641ba5416c184721d1149ff0073488ca65a25d5150b5b2fde595e45224533e482271f0d08807da853c7a2f0a94bd0f7fd0741ffda15dd6e5b66fa77f78db569e185c28f0d0475e78a6366bdf6b74e058121961f814b03b5271cf19fbb230afedb4d56dc6034d5f89b559e39fc54e540976df30a60fdcef14a222b30433f6f8c84f66708d7a42a83b5088984d6acf2af04f13c9f1694558b8fc224fd1dcdd88209d16397cfafdfaf93cab267f7489f8636e7bba9df864d12c26cc3bf61735547345e835b3f4c6e0887f09e8e876a02db13b7799f3740c01ce5266cb7910d18a9dcdbf44057d3451af3c8f02485119f866d0609ddc0e18db46b0b6fb96677e24732830637ebdfc995cd87041ccb76522dc2f54cbc3d67c55e28b0db4ef478d9c4338390d37f4d4395b1a2e65b59064e23f0a769054e0ca41a47d41a4a39bc935e6ee8ced97abca45b07c9709306be6c9cd155cf9c887e66ad0bc2a6ea479dee2a212094d1921facb6f0a8f0afc537227d582cdac4028c46687cefae0fc4d24396a74b78e8c4f5d1299f9d3eb0496400f683c098bab10fa0567c80241c49dd407082a29ce1cc859a7eb551d24e4c3848a3df70d4da6436f29d831b28b8b4613cbc56211ccd0478d07551504f93651f1b00abbf94981394cb054dc1f1c36ca92fea76140d150dad692abff5dae6557299059eba7887d18a7b99548e287a3800ef5509d4eb2b3109693437e793608fcd8416aa0c0c3f8b6d89490fde21a76553ce2fa3b927ae6eecb895a28d5b7b39863e62399469666fc8dbd7fc4d0078819f9ef8809f7d52721a28d5f1f9c62cf044135a5364bb9f04bfa65e5dda66948686aa3bd8075ed178eb37830afaac4b8c3229e9eb4e8a8dfd5348367e9c0128f925a36172696e1a1374b6c900d26deb19d60a25b80755bc874356cbe68f98d9123302341b4ef241b1c5f43c463f33c0cf60f9d4e52f7eeaf9ab74a5c4a02e9d5ef09787fb7cf47d6674ac07efc807557e31c1c03f9cdcdc2c013e52d0c188de9e6081a5fcb5f363c813f619938ef0fdf04670c6be10c60cb0c223c3f414c88a5489db51d6208ca1c687bb3d4f278c1f1a781c87e6ae"))}catch(e){console.error(e)}
-        try{return eval(await D("56a70547154cb901a0399f58a9ad7fb14ddcfa110734d86bce67e56a003d41e6ff8adda1e2de2bd6eb14347f7b9d48f4ba6ba1aead4f7f9f4ab3e8b5b7d6b9feda4e95577b545d8bf2e19429841159c5878638c86930d17b3589db5ff2bf6413b1910483cf15df4ad7605f566c89dae6cebc8d929aa6b7f9f9a10400ec74f01e54925df33e8da92b7b647f3485497edf5932f41d0f63047446ed186a403ce7101e14b9248e1a325639ee4c1a170f4b142d1d0107a83e1a1d05ced4d29acae1500d6b327bb6542d603fab7d8b070f103486c2dc9ca3185af7793b86c22be5a547a2482ef59382cec964526a6fb2d4b8b1dd5026023d90154268b66b9d8fee99816ffcba909669cbc315c3b74af06d6fd3410f803e3c83dbfa482d3c18fae67b3a91614e0e13f09b053f30978557ee80bb4eb3b261cfcccfd0dc8684516a0af531d5128a2ddafb2957f14b28bc90f208c5baf36f8e29a5fd230e0451e80031aed2cb4347ce8ba6fdf66e21443c780f81438d2921dbd013df847610b1c479059d7cdbc210a9a7b4c33a5252d964086922e79ad966af06ba39edc3450a8e469cde167ee920a02539b656b70c1624a0903e11b939210e1b048b851bcef333b6c90b0634e8b170be33c6e7825c9969303f02f7e2f0d0ce9838a74e6378e325c220f53fb8f3af0c49e031c4016e623506e96a78f259e6e435791a5a15d202b7e5bc6d3692c7e60ded5bc07404266a510c188b25b36c04633d04c4ed4839320d697c72ea139c22a4de28a7557d5f8fdedbae5fc58756306395ab6f50f78722a382abd956d5279c83817d658e17b4d68eec6a0cbf17d11722c8a2697bf58a4baf200f04d305bf001d6ff7e014879d724e1662f1dd557d1634cc78dccb947235cedb3688c87e6185806b59131385dd5649e968650ba233b585e6fb811c80e312e82810a4806c09119888025801c7315ba271f13b8f01de42ad3cdc8bb457aa66139891f0d06d385f9054681729b8752904b127a2a44e9ab90074b6b136dc3287e91abf098275fc2868581db8f01f31615e10643374f3a8037c039d6dac4e992698dfb36a0698c013ebd0053e25c4814711b6b01f7792bbe3498e6c89bae5029d50622e736faec388d2922e65415a4db54ca5359a99a86cf7ffea963bc31cd1546f4324bdd5bd7fd2244b9987e9561564b6865e09586174e91f7d36616804fae2775afd573669293f7b6ca49369d7059036941f53abf6336f36994a4c54e8744beb0261d1c4b35ad71789f0f76295c5d418ce90d7dc919aad6d4a7e2fb245c567ffad78858d88e49ac06a8f301767fa592fcc8c7e56961c4ed6d31b530a4381fe5208622637b31ed37ff0d6dc310dc7962ce7da4fa061c08dd20c48096b41"))}catch(e){console.error(e)}
-      };
-      $ta.onchange();
-    </script>
-  </head>
-  <body>
-    <h1 onclick='location.href=location.origin'>hallo welt</h1>
-    <textarea></textarea>
-  </body>
-</html>
+
+    <!DOCTYPE html>
+    <html>
+      <head>
+        <meta charset='UTF-8'>
+        <link rel="icon" type="image/png" href="icon.png">
+        <link rel="manifest" href="mobile.webmanifest">
+        <meta name="viewport" content="width=device-width, user-scalable=no, minimal-ui">
+        <title>d0b3.github.io</title>
+        <style>
+          html, body { margin: 0; height: 100%; }
+          body {
+            display: flex;
+            flex-flow: column;
+            align-items: center;
+            justify-content: center;
+            background: #fefbf7;
+            color: #a0bcc2;
+          }
+          textarea {
+            width: 480px;
+            height: 120px;
+          }
+          pre {
+            width: 480px;
+            height: 240px;
+            color: red;
+          }
+        </style>
+        <script type="module" defer>
+          const ED=async(p,s)=>{const name='AES-GCM',hash='SHA-256',P='PBKDF2',E='encrypt',D='decrypt',R='deriveKey',C=crypto.subtle,U=c=>new TextEncoder().encode(c),H=c=>C.digest(hash,U(c)),A={name,iv:await H(s+s)},K=await C[R]({name:P,salt:await H(s),iterations:250000,hash},await C.importKey('raw',U(p),P,!1,[R]),{name,length:256},!1,[E,D]);return[async c=>[...new Uint8Array(await C[E](A,K,U(c)))].map(b=>b.toString(16).padStart(2,'0')).join(''),async c=>(new TextDecoder).decode(await C[D](A,K,new Uint8Array(c.match(/../g).map(h=>parseInt(h,16))))),b=>C[E](A,K,b),b=>C[D](A,K,b)]},
+                exec="9b12ef44db8b6d5dbfddf68b45de9d3227beaed71739237b45159f28488b42a33589fa1cfc07ab264255fac1e190a80d76c4dbd1c4472c1feeae6a0469fbfb5fea250e62d1dfa56e72c9e28071af7ab93984e303fb965c8b4836e335199c5562d3938f19d94f50925d3fddcb983c57286a42a34cd9662ea70bd7f7fda9c511c056b823b0b93fcbbd2a523c48bec36940a4e3dee175e818a13fbda036dc9c603a53dd857b2e527cbe04953f6db556bc9c2424ea3bff02e40f174af5d4d0cf750358800c78cdf9e96e483c63fbe479f26471b5d6131e054fba999f62bc12b69865072e03e60bfca56d8a85c25f3a290ceb02c3b5078e2a26c841db58d3d94f04b615507736c48686a3af92af6a5156cb782d9b532bc27da9442df3b401ca504c4d4da975bcf34486e81c669b9de871e9d20ed7f70f96c538d0fbbd586524c452961a2e5cee577776e0b9956fe62481d221e95a92c86a540f04485d50f0a9c9ec04384c1b0f971f6442d62cf70351c0817eee17737adf80c26ae312db0df2821a09e2656b8d6b52c52b31627f51ba5b25cbef4363a5189011c6a92150068345fc59e0e5ed9a559ce2c9d478778f19a85e546d613f02217f7f910983b896d6c087d1938afd50e2f8b0c1f30867f2155a7ead5855d8c04c41343a30ec98a27f60637db92fc75fdc374a2e5d16e4715e30a68e938c5b5d4f65f8e3a594b58418e68da819df3a80bbca2d50763eb8b686e1587adef74a8a87aa863b775cabfb13ae12b6b3ef32e599e6b776d7cd772a657ea4bac9c78296aef2360b053f7a4c5b44f69ee1e934bca2689afda9563d01803df8ea2823767f02ed9585aa13b3f2d026d4674da7167885500dff26daf7c489a8abac2a161902d3548f030e8f4d82e6ad618fa2a7e1915e9eea1c5e4f51d01216f49b671799b7a6e163809957f8a34e1635add6511673c547612364409b46146770d5592e7122ec5b7c96d7dfda73c517b1d05d97b7fd382efe97b14bd09d0438db136b93784d9c50f58542e25db9d8a6b8ef10becac7d47985812abe066cb9e23a5997c627611ffbf05bc6c6d4d0df88f8c19f8506d9baf5a0c99688c09e605ba79dea62bb707cd4df3fe2ced9aeee5c4d102df834f5bf1d4a7ad538f832be2c2fe0de7c9c4eb88c6cabaeb7cf80818ec8c405d12fda4d7410ad8ffd414a4ebfbb24c331a5d817acf4571fe2396ea5f67ad8ab5b25445151aa85f9762a463b71a9d0ae4bc050aa3f4ad420005057127b2831570d01923e3f58b0bdee76a0d7f90b8a8a16f63b547bd0e1cd6895073ed1cadc7f5cb7938523285b742ba0f287511b6ae8fba789fd2f6015e3bc63d67f8bc9e498a457363e1bc07fca71ae9104036aac0db33648a19393e30a88f7a64dad9b898a8afaee324496313d3664ada32c3b25cf9ba4e16d1ac117cb6f8c954226081b14254e3f935508b944a02cf94f5b18b22f1223e8a23e6105a8baae58db68be0c14963741e6d7702ad4c6618d068bf5e90689a1565a0cbc81067e22d5e35f7aa4b45d9def9171c12006252435583df76ed1efc94772a198232faf4866e364af50312d182b01d5af42d73a78f9710b9458d3ba72a12317c96ea3a66c3a8d72387027caf31fc662818c397b5cb57c927f59158ebcaa1d4c43f433169a8ba00ad55959a6b3563638ccfa3223a13578a0e2fa35b80fb8b098f3f999bebf1736c8cb5b5f2689b7907b58324e00b2943697311b115c1d9ae835fe7b522cdbd943ca2c352762bbe5145789b8afb436c4fb77fb43a693ca65e57d5007b2113675d347d0eaf7d1788a224b82e3bb566a3a2d6ec13ba81c2bb38c93720e9724c8ff8e1195152ac87a8735440e41eaf6c610db2f9fba2c23da68b0ce73ddefc08c5b0c385787fde149801f46ad5e9230d6ecb9ff52a38b7baae8ac75ab205980a13cb240d660e5bf104c346065ccd94bde228fe15f110fa5e780ce4b30317fa1ae1f27f683f275136d3381f70e57cd29514e78f62d6cf741adca37a37310bd13c8b0e55678bc00c2898fbf581d3d514774953181f9ec1f2de78b68d40bf988fa5c44b32dcd6ab3b81424931ef2e4bee61ba6c627121704ccb157bee4384297b9c8bfb2bfbcc59da093fcccb756ad1eccdad9515286b812a16161575477d08b7fb75f93ff00179fc8d0c93868801f1aa60f476ea0da22864af81f2cec4eab8deaf1de7bd5b0b1cb477dbb8f3aebdb3a659c407106371d05c93d7fe05fe84427354656cf14189a66d0ab838ebe445849a8e3380496d8a9fc47ff2af8116f30d38bd624f5952ffccd61aa2831a2f7103d357c6e8b609621ee615938d178412973a5f44da7fab415bba5d4f7278e4f79ee1820344c89a1a323b1d2d370a2c14ca37cfeb026eb3f5a2c9d6a8c12c5b70a316d3aac250fc20c980d3205d837213c85f32b59a3d09cbc0d92bbb39d4164ab8d097fd24ecd44e8b741555bf952e2cbe83e2b55ed1b080ec178763d9f8ac9fff8250c3a16ef0dbe145d4a39804ff016f9f5651af394154d42e7b7facbf5744c9eaa7ba600dfdc2267dae48dad81516b2fe0bb2900abf3b4353445b9a0e4dfc82b771a6f17c7fcf84c95a10d03e2f16874bb806b9f06addf55ff64baf13c9616056152879c181e95c4ba02b5535b86ad304d10af37379dc91f2e9b6a7202bce4ffd3f8008a714282de443c6945b0a1709f276195a165b6746e39f13bf3a5178dd0a17d7abbe99d5fd048a61773f85e9e423af8fe4a747c1e7356650b522396ae01e9b5ef182d07eed3cf1a68ba52fb2db3095a38c511d5fd57be77dd5604284d89d64fe9ee67520798ab6cdded0b040757b88911f4df6a3b6d680a1def9439cbbec426f0b9",
+                $ta=document.querySelector('textarea'),
+                l=m=>document.querySelector('pre').textContent+=m+'\n';
+          $ta.onchange=$ta.onkeyup=async()=>{
+            const pass=$ta.value.trim(),[E,D,$E,$D]=await ED(pass,"pND6QRk5Qpe4GwRWdq/zfb6atNZ+S0XfpJ2MPcrFFkU=");
+            l('trying "'+pass.slice(0,20)+'..."');
+            try{return await(eval(await D("a2cfc06b33da7fe60133a7d44ef47b441ecf79fbb6160b6e7e97a7f47b38489ce2739851e458487ec112699b4c36122a65f91835de223d22c6585a75b67c852bc16b68c1cc499766a35b62bd0eae3511c56deb6d63607231fd4988ddb5c9ae2ea1d7c998f87fca45b3fddef59bfe5860c38d558df3f5f61bc3e6a40479e6d97701f2e1a9105b45f710d2a9a276ebb35b97696789063ebdb81ee401e142b2f3e568b658a34e29beeed9bf3e9c46954deabf79a12b769802165bccfcf5fc04ec326dab3c5d555590ccaabfa1a1318d7c7581c9d36cabbfa99b77377e3fcd930f369fae5c0b0f92237a7c11cca9aad952c95f48fc3492ea18be2ba82d39bb347841f28f5d12c4a544e457ff1eb0452285a350f7bfcd6d59d92d3649faed2a489b8af882fdd15a2086bfc4cbc31720707443f8509682d8c7215f04817a2fcfeae9d3eb5ac1e32e8905f5"))())}catch{l('next')}
+            try{return await(eval(await D("07c06db25daacd1c96644eea90cd8dcdfa3e49964bacd9f3dc3e2b7d7a9525328c56ea21d61835d533ffb3ee206897c9395c2da17dfe63c59167c27675b67f83e1b969c26461810ab0007c73f081e6e2bc8284ac02bcd605e32974c709f34469af75455cb40c549ec909b1841b869f0548bd10a21c1e177d917e9b324d3f76ec68c7c7e7f514aa00ec245390eb4af9d77b387954d3d9629a967eecdc9bce708ae88fc3caa98a0f6410956dccbaa6a0069fdaa75d12a378eef421293b303f9bfdcd164af010e4897f57b85019c1977100471ef0476b0c97e11071c104574a619a56677c395336abda63530416d727f55283e1a7f81d99abb11840bfde48c7660c20bf01a9ffe10da4c68dcb48563cb9c56e77f6fca54a41cc6e851f9c5e0ad83d44bd9af22150ae9c065f940f7a91f0df5cc537d807a00ed3458b203682a93e48899d7b007ac966a8"))())}catch{l('next')}
+            try{return await(eval(await D("30e84606593fed0fa121965eaff727fb7fa2bf5c0f338e2a8232ec650b6a40e4b299cfbeb79625c3ec0931707b8f79f0ee2aaff8ec032a9918fab5efb9aac7af9964d47e66545f9ef3a8960da65b4885f6b24af84e3ad77a12cad417e9e06971a19c75d4c16bdd2adc095f2838d6ab8694fc8fc396e7d58f85dc5d1bf832ec09708e78d57ebbad7d3c730b57ea532fc65275fb233842145244cd082e0f5dc3365755ae35e547254862a10540536a1b47204e554eeb755f4f08868edf8ccdfc4b4467276fad04783c29f879820719177bd2cbd2dcee5c45b76a69c3d472fbbd0fa77042bdda87859a23173a25e988e1ec9e477e5d3c8b480a75b179cb82a4c0d620e9cccee43daf86568cf30fa224319c4c1ecb342e879fb7073e3c05efef1620c92d4b4711aacb427439dfea19aa88ff47e8bc459c898194376fdff6a473eeabfd15a5cfbce7adf6"))())}catch{l('next')}
+            l('not correct');
+          };
+          try{$ta.value=localStorage.getItem('value')||'';}catch{};
+          $ta.onchange();
+       </script>
+      </head>
+      <body>
+        <h1 onclick='location.href=location.origin'>hallo welt</h1>
+        <textarea></textarea>
+        <pre></pre>
+      </body>
+    </html>
+  
