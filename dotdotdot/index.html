@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="de">
+  <head>
+    <meta charset="utf-8">
+    <title>...</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="icon" href="icon.png">
+    <link rel="manifest" href="manifest.json">
+    <style>
+      .text {
+        opacity: 0;
+      }
+      .view {
+        position: fixed;
+        left: 0;
+        top: 0;
+        right: 0;
+        height: 100vh;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-family: sans-serif;
+        font-size: 15vw;
+        background: #6666;
+      }
+    </style>
+    <script type="module">
+
+      await new Promise(r => onload = r);
+
+      const $html = document.querySelector('html'),
+            $body = document.querySelector('body'),
+            $text = document.querySelector('.text'),
+            $view = document.querySelector('.view'),
+            speak = text => {
+              console.log('SPEAK', text);
+              speechSynthesis.speak(
+                new SpeechSynthesisUtterance(text)
+              );
+            };
+
+      function adjust () {
+        $html.style.height = $body.style.height = $view.style.height = visualViewport.height + 'px';
+      }
+      visualViewport.addEventListener('resize', adjust);
+
+      let offset = 0;
+      $text.oninput = () => {
+        const v = $text.value, l = [...v].at(-1);
+        if (!l) {
+
+        } else if (l.match(/[\.:?!\n]/) || l.match(/\p{Emoji}/u)) {
+          speak(v.slice(offset)
+            .replaceAll('.', ' Punkt.')
+            .replaceAll(':', ' Doppelpunkt:')
+            .replaceAll('?', ' Fragezeichen?')
+            .replaceAll('!', ' Ausrufezeichen!')
+          );
+          $text.value = '';
+          offset = 0;
+        } else if (l.match(/[ +-0123456789]/)) {
+          speak(v.slice(offset));
+          offset = v.length;
+        }
+        offset = Math.min(offset, $text.value.length);
+        $view.textContent = $text.value.slice(offset) || '…';
+        adjust();
+      };
+      $text.onkeydown = async ev => {
+        if (ev.keyCode === 13) {
+          if ($text.value.endsWith('update')) {
+            try {
+              if (await (await fetch('amionline.txt?'+Date.now())).text() !== 'yesyouare') throw 'nope';
+              const regs = await navigator.serviceWorker.getRegistrations();
+              for (const reg of regs) reg.unregister();
+              location.reload();
+            } catch (e) {
+              console.log('NOUPDATE', e);
+            }
+          }
+          $text.value += '\n';
+          $text.oninput();
+        }
+      };
+
+      $view.onclick = () => {
+        $text.value = $text.value.slice(0, offset);
+        $view.textContent = '…';
+        adjust();
+      };
+
+      $text.onblur = () => {
+        $text.focus();
+      };
+      $text.focus();
+      $text.oninput();
+
+      navigator.serviceWorker?.register('sw.js');
+
+    </script>
+  </head>
+  <body>
+    <textarea class='text'></textarea>
+    <div class='view'></div>
+  </body>
+</html>
